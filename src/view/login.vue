@@ -51,13 +51,13 @@ export default {
                     ...this.form,
                 }
                 }).then(res => {
-                    if(res.success===true){
+                    if(res.code===200){
+                        // this.$cookies.set('userId', res.res.userId)
                         this.$router.push({path: '/index'})//登录成功后跳转到指定页面
                     }else{
-                        console.log('pp',res.success)
-                         this.$Notice.error({
-                             title:res.message
-                         })
+                        this.$Notice.error({
+                            title:res.reason
+                        })
                     }
                 })
             } else {
@@ -73,7 +73,7 @@ export default {
     .container-login{
         width: 100%;
         margin: 0 auto;
-        padding:15% 2%;
+        padding:10% 2%;
         display: flex;
         background: url('../assets/header/bg-01.jpg') no-repeat center;
         -moz-background-size:100% 100%; 

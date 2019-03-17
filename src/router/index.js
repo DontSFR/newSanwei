@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/view/index'
-import personalCenter from '@/router/personalCenter.js'
-import orderCenter from '@/router/orderCenter.js'
+// import personalCenter from '@/router/personalCenter.js'
+// import orderCenter from '@/router/orderCenter.js'
 
 Vue.use(Router)
 
@@ -16,10 +16,11 @@ const routes =  [
     // },
     component: index,
     children: [
-      personalCenter,
-      orderCenter,
+      // personalCenter,
+      // orderCenter,
       {
         path: 'index',
+        name:'index',
         component: r => require.ensure([], () => r(require('../view/index/index.vue')), 'index')
       },
       {
@@ -46,6 +47,11 @@ const routes =  [
         path:'category',
         name:'category',
         component: r => require.ensure([], () => r(require('../view/category/index.vue')), 'category')
+      },
+      {
+        path:'center',
+        name:'center',
+        component: r => require.ensure([], () => r(require('../view/center/index.vue')), 'center')
       }
     ]
   },

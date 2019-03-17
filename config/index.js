@@ -10,9 +10,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '*': {
-        target: 'http://39.108.52.40:8001', //', //目标接口域名
+        target: 'http://39.108.52.40:7777/', //', //目标接口域名
         changeOrigin: true, //是否跨域
-      
       }
     },
     // Various Dev Server settings

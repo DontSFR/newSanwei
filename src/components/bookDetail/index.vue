@@ -7,61 +7,53 @@
                 alt=""
                 title="" />
             </span>
-            {{this.$route.query.id}}
+            {{bookDetails.name}}
         </div>
-        <div class="left-content">
+        <div class="left-content"  >
             <div class="prod_img">
                 <a href="details.html">
-                    <img class="book-img" src="~@/assets/index/prod1.gif"/>
-                </a>
-                <br /><br />
-                <a 
-                    href="images/big_pic.jpg"
-                >
-                    <img src="~@/assets/index/zoom.gif"/>
+                    <img class="book-img" :src="`https://images.weserv.nl/?url=${bookDetails.img}`"/>
                 </a>
             </div>
             <div class="detail-content">
                 <div class="prod_det_box">
                     <div class="detail">
-                        <span>作者：444</span>
+                        <span>作者：{{bookDetails.writer}}</span>
                         <br>
-                        <span>出版社: 上海译文出版社</span>
+                        <span>出版社: {{bookDetails.publisher}}</span>
                         <br>
-                        <span>原作名: The Ghost Writer</span>
+                        <span>定价(￥):  {{bookDetails.price}}</span>
                         <br>
-                        <span>定价(￥): 45</span>
-                        <br>
-                        <span>出版年: 2019-1-31</span>
-                        <br>
-                        <span>页数：444</span>
+                        <span>出版日期:  {{bookDetails.date}}</span>
                         <br>
                     </div>
-                    <div class="rate">
+                    <div class="rate" >
                         <span>
                             评分：
                         </span>
                         <br>
                         <span>
-                            12548人评价
+                            {{bookDetails.people}}人评价
                         </span>
                         <br>
                         <span>
                             <Rate  allow-half disabled v-model="valueCustomText" ></Rate>
                         </span>
                         <br>
-                        <span class="rate-num" style="color: #f5a623">{{ valueCustomText }}</span>
+                        <span class="rate-num" style="color: #f5a623"> {{bookDetails.grade}}</span>
                     </div>
                 </div>
                 <div class="your-rate">
+                    <Button class="collect-button"  type="warning" shape="circle" v-if="collectValue" @click="getCollect(0)">取消收藏</Button>
+                    <Button class="collect-button"   shape="circle"  v-else  @click="getCollect(1)">收&nbsp;&nbsp;藏</Button>
                     <span>你的评价:</span>
                     <Rate show-text allow-half v-model="yourRateValue">
-                        <span style="color: #f5a623">{{ yourRateValue }}</span>
+                        <span style="color: #f5a623">{{ yourRateValue*2 }}</span>
                     </Rate>
                 </div>
             </div>
         </div>
-        <div class="intro-content">
+        <div class="intro-content" >
             <Menu mode="horizontal"  active-name="1">
                 <MenuItem name="1" @click.native="selectMenu(1)">
                     <Icon type="ios-paper" />
@@ -70,7 +62,7 @@
                 <MenuItem name="2" @click.native="selectMenu(2)">
                     <Icon type="ios-people" />
                     评论
-                    <Badge :count="20" class="demo-badge-alone"></Badge>
+                    <Badge :count="commentsCount" class="demo-badge-alone"></Badge>
                 </MenuItem>
             </Menu>
             <div class="content">
@@ -111,58 +103,14 @@
                     >
                         <Input v-model="commentText" type="textarea" :autosize="true" placeholder="说点什么吧" />
                     </Modal>
-                    <div class="comment-container">
+                    <div class="comment-container" v-for="item in bookDetails.comments">
                         <div class="user-message">
-                            <p class="user-name">我***家</p>
-                            <p class="user-grade">评分：9.4</p>
-                            <p class="user-date">2018-12-22</p>
+                            <p class="user-name">{{item.person}}</p>
+                            <p class="user-grade">评分：{{item.grade||'无'}}</p>
+                            <p class="user-date">{{item.commentDate}}</p>
                         </div>
                         <div class="comment-message">
-                            <p class="user-comment">我一直有一种错觉，好像直木奖的作者都很会讲故事，因此就应该很年轻。然而这本短篇集，越读到后面，就越感受到字里行间的某种疲惫之意，读完上维基百科一看，果然年过半百了啊，而且2006年就获得了直木奖提名，然后一路长跑至今。其中有一个故事里带到了一名一事无成的小说家、死于车祸的失败父亲，有了一种：是不是每一个挣扎着努力的人，都会或多或少生出一种“能就这么挂了真好啊”的情绪呢.....我死后哪管什么的，呵</p>
-                        </div>
-                        <Divider/>
-                    </div>
-                    <div class="comment-container">
-                        <div class="user-message">
-                            <p class="user-name">我***家</p>
-                            <p class="user-grade">评分：9.4</p>
-                            <p class="user-date">2018-12-22</p>
-                        </div>
-                        <div class="comment-message">
-                            <p class="user-comment">我一直有一种错觉，好像直木奖的作者都很会讲故事，因此就应该很年轻。然而这本短篇集，越读到后面，就越感受到字里行间的某种疲惫之意，读完上维基百科一看，果然年过半百了啊，而且2006年就获得了直木奖提名，然后一路长跑至今。其中有一个故事里带到了一名一事无成的小说家、死于车祸的失败父亲，有了一种：是不是每一个挣扎着努力的人，都会或多或少生出一种“能就这么挂了真好啊”的情绪呢.....我死后哪管什么的，呵</p>
-                        </div>
-                        <Divider/>
-                    </div>
-                    <div class="comment-container">
-                        <div class="user-message">
-                            <p class="user-name">我***家</p>
-                            <p class="user-grade">评分：9.4</p>
-                            <p class="user-date">2018-12-22</p>
-                        </div>
-                        <div class="comment-message">
-                            <p class="user-comment">我一直有一种错觉，好像直木奖的作者都很会讲故事，因此就应该很年轻。然而这本短篇集，越读到后面，就越感受到字里行间的某种疲惫之意，读完上维基百科一看，果然年过半百了啊，而且2006年就获得了直木奖提名，然后一路长跑至今。其中有一个故事里带到了一名一事无成的小说家、死于车祸的失败父亲，有了一种：是不是每一个挣扎着努力的人，都会或多或少生出一种“能就这么挂了真好啊”的情绪呢.....我死后哪管什么的，呵</p>
-                        </div>
-                        <Divider/>
-                    </div>
-                    <div class="comment-container">
-                        <div class="user-message">
-                            <p class="user-name">我***家</p>
-                            <p class="user-grade">评分：9.4</p>
-                            <p class="user-date">2018-12-22</p>
-                        </div>
-                        <div class="comment-message">
-                            <p class="user-comment">我一直有一种错觉，好像直木奖的作者都很会讲故事，因此就应该很年轻。然而这本短篇集，越读到后面，就越感受到字里行间的某种疲惫之意，读完上维基百科一看，果然年过半百了啊，而且2006年就获得了直木奖提名，然后一路长跑至今。其中有一个故事里带到了一名一事无成的小说家、死于车祸的失败父亲，有了一种：是不是每一个挣扎着努力的人，都会或多或少生出一种“能就这么挂了真好啊”的情绪呢.....我死后哪管什么的，呵</p>
-                        </div>
-                        <Divider/>
-                    </div>
-                    <div class="comment-container">
-                        <div class="user-message">
-                            <p class="user-name">我***家</p>
-                            <p class="user-grade">评分：9.4</p>
-                            <p class="user-date">2018-12-22</p>
-                        </div>
-                        <div class="comment-message">
-                            <p class="user-comment">我一直有一种错觉，好像直木奖的作者都很会讲故事，因此就应该很年轻。然而这本短篇集，越读到后面，就越感受到字里行间的某种疲惫之意，读完上维基百科一看，果然年过半百了啊，而且2006年就获得了直木奖提名，然后一路长跑至今。其中有一个故事里带到了一名一事无成的小说家、死于车祸的失败父亲，有了一种：是不是每一个挣扎着努力的人，都会或多或少生出一种“能就这么挂了真好啊”的情绪呢.....我死后哪管什么的，呵</p>
+                            <p class="user-comment">{{item.commentContent}}</p>
                         </div>
                         <Divider/>
                     </div>
@@ -176,14 +124,18 @@
         data () {
             return {
                 id:12345,
-                valueCustomText: 3.4,
+                commentsCount:0,
+                valueCustomText: 0,
                 yourRateValue:0,
                 textname:"内容简介",
                 catalog:"目录",
+                bookDetails:{},
                 writerIntro:"作者简介",
                 menuTab:true,
                 commentModal:false,
                 commentText:'',
+                bookName:'书名',
+                collectValue:false,
                 bookDetail:[
                     {
                         name:"小河西",
@@ -197,13 +149,53 @@
                             num:9.5
                         }
                     }
-                ]
+                ],
+                bookId:'',
             }
         },
         create(){
-            this.$route.query.id
+            this.$route.query.bookId
+        },
+        mounted(){
+            this.init()
         },
         methods:{
+            init(){
+                this.getBookDeails()
+            },
+            getCollect(index){
+                if(index===1){//收藏
+                    this.$ajax({
+                        method:'post',
+                        url:'http://39.108.52.40:7777/addCollect',
+                        params:{
+                            bookId:this.$route.query.bookId
+                        }
+                    }).then(res=>{
+                        if(res.code===200){
+                            this.collectValue=true
+                        }else if(res.code===200){
+                            if(res.reason==="用户未登录"){
+                            }
+                        }
+                    })
+                }
+            },
+            getBookDeails(){
+                this.$ajax({
+                    method:'post',
+                    url:'http://39.108.52.40:7777/getBookById',
+                    params:{
+                        bookId:this.$route.query.bookId
+                    }
+                }).then(res=>{
+                    this.bookDetails=res.res
+                    let grade = this.bookDetails.grade
+                    grade=parseFloat(grade)//字符串转化为数字
+                    this.valueCustomText=parseFloat((grade/2).toFixed(1))//数字除以2再转化为number类型
+                    this.collectValue=res.hadCollected
+                })
+            },
             selectMenu(index){
                 this.menuTab=(index===1)
             },
@@ -253,6 +245,25 @@
             .your-rate{
                 line-height: 50px;
                 height:50px;
+                /deep/.ivu-btn-circle{
+                    width: 66px;
+                }
+                /deep/.ivu-btn{
+                    padding:5px 8px 6px;
+                }
+                /deep/.ivu-btn.active, .ivu-btn:active {
+                    color: #F91;
+                    background-color: #fff;
+                    border-color: #F91;
+                }
+                /deep/.ivu-btn:hover {
+                    color: #F91;
+                    background-color: #fff;
+                    border-color: #F91;
+                }
+                .collect-button{
+                    margin-right: 20px;
+                }
             }
             
         }
@@ -339,9 +350,9 @@
                         text-align: center;
                         float: left;
                         width: 15%;
+                        padding-bottom: 20px;
                         .user-name{
                             color:#37A;
-                            margin-top:10px;
                         }
                         .user-grade{
                             color:#f5a623;

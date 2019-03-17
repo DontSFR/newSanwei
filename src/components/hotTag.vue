@@ -6,16 +6,15 @@
             </span>
             热门标签
         </div>
-        <div class="classify-box" v-for="t in bookTypeList">
-            <span class="title">{{t.name}}</span>
-            <div class="classify-content">
-                <a class="name" v-for="tt in t.class">
+        <div class="classify-box">
+            <div class="classify-content" v-for="t in bookTypeList">
+                <span class="name">
                     <router-link 
-                        :to="{name:'category',query:{id:tt.name}}"
+                        :to="{name:'category',query:{id:t.id,name:t.name}}"
                     > 
-                    {{tt.name}}
+                    {{t.name}}
                     </router-link>
-                </a>
+                </span>
             </div>
         </div>
     </div>
@@ -25,93 +24,16 @@ export default {
     data () {
         return {
                 bookTypeList: [
-                    {
-                        id: '1', 
-                        name: '小说文学馆',
-                        class:[
-                            {name:'古典'},
-                            {name:'现代'},
-                            {name:'古往今来'},
-                            {name:'显示'},
-                            {name:'科学'},
-                            {name:'力石'},
-                            {name:'文化'},
-                            {name:'电视'},
-                            {name:'可乐'},
-                            {name:'MOOC'}
-        
-                        ]
-                    }, 
-                    {id: '2', name: '古籍收藏鉴赏馆',
-                        class:[
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'}
-                        ]
-                    },
-                    {id: '3', name: '童书馆',
-                        class:[
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'}
-                        ]
-                    }, 
-                    {id: '4', name: '人文社会馆',
-                        class:[
-                            {name:'古kkk典'},
-                            {name:'古典'},
-                            {name:'古www典'},
-                            {name:'古ss典'},
-                            {name:'古典'},
-                            {name:'sss'},
-                            {name:'古典'},
-                            {name:'古ss典'},
-                            {name:'古典'},
-                            {name:'古典'}
-                        ]
-                    },
-                    {id: '5', name: '教育馆',
-                        class:[
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'}
-                        ]
-                    }, 
-                    {id: '6', name: '自然科学馆',
-                        class:[
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'},
-                            {name:'古典'}
-                        ]
-                    } 
+                    {id: '1',name: '小说文学馆' }, 
+                    {id: '2', name: '经济馆'},
+                    {id: '3', name: '管理馆'}, 
+                    {id: '4', name: '教育馆'},
+                    {id: '5', name: '文化馆'}, 
+                    {id: '6', name: '历史馆'}, 
+                    {id: '7', name: '文学馆'} , 
+                    {id: '8', name: '名著馆'} , 
+                    {id: '9', name: '军事馆'}  , 
+                    {id: '10', name: '美食馆'}  
                 ],
         }
     }
@@ -121,7 +43,6 @@ export default {
 @import "~@/style/basic.less";
 .spcial-content{
     width:100%;
-    // height: 100%;
     padding: 20px 0 0 20px;
     .title{
         color:#734633;
@@ -134,8 +55,7 @@ export default {
         }
     }
     .classify-box{
-        padding:0 0 10px 10px;
-        // height:100%;
+        padding:0 0 30px 10px;
         margin:0 20px 20px 0;
         border-bottom:1px #b2b2b2 dashed;
         .title{
@@ -143,15 +63,23 @@ export default {
             font-size:14px;
         }
         .classify-content{
-            width: 100%;
+            width: 43%;
+            display: inline-block;
             margin-top: 10px;
+            margin-left: 7%;
+            text-align: center;
             .name{
-                color:#37A;
+                width: 100%;
+                height: 50px;
+                line-height: 50px;
                 display: inline-block;
                 background-color:rgb(213, 219, 219);
-                padding:2px 5px;
-                margin:5px 0 0 10px;
-                // line-height: px;
+                a{
+                    color:#37A;
+                }
+                a:hover{
+                    color: #f7a849 ;
+                }
             }
         }
     }

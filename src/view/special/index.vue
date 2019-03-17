@@ -1,10 +1,28 @@
 <template>
-    <my-goods></my-goods>
+    <div class="main-content">
+        <div class="left-content">
+            <my-special></my-special>
+        </div>
+    </div>
 </template>
 <script>
-import myGoods from "@/components/myGoods.vue";
-export default {
-    components:{myGoods}
-}
+import mySpecial from "@/components/moreSpecial/index.vue";
+    export default{
+        components:{mySpecial}
+    }
 </script>
+<style lang="less" scoped>
+@import "~@/style/basic.less";
+.main-content{
+    width: 100%;
+    
+}
+.left-content{
+    width: 65%;
+    height: 100%;
+    float: left;
+    background: url("~@/assets/index/center_bg_1.png") repeat-y;
+    background-size:100% 100%;
+}
+</style>
 

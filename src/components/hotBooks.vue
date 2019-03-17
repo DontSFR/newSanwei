@@ -8,18 +8,18 @@
         </div>
         <div class="classify-box" >
             <div class="ranking-content"  v-for="(t,i) in rankList">
-                <span class="nunmber">{{t.top}}.</span>
+                <span class="nunmber">{{i+1}}.</span>
                 <div class="name-writer">
-                    <a class="book-name">
-                        <router-link 
-                            :to="{name:'details',query:{id:t.name}}"
-                        > 
-                        {{t.name}}
-                        </router-link>
-                    </a>
+                    <router-link 
+                        :to="{name:'details',query:{id:t.name}}"
+                    > 
+                        <span class="book-name">
+                            {{t.name}}
+                        </span>
+                    </router-link>
                     <span class="book-writer" >作者:{{t.writer}}</span>
                 </div>
-                <span class="book-grade">评分：{{t.grade}}</span>
+                <span class="book-grade">评分：<span class="book-grade grade">{{t.grade}}</span></span>
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@ export default {
                 {
                     name:"小说",
                     top:"2",
-                    writer:"你loookkokhdhd好",
+                    writer:"你loookkokhdhd好你loookkokhdhd好你loookkokhdhd好你loookkokhdhd好",
                     grade:'9.7'
                     
                 },
@@ -114,8 +114,9 @@ export default {
         getRankList(){
             this.$ajax({
                 method:"post",
-                url:"http://192.168.1.9:7777/getGradeTop10"
+                url:"http://39.108.52.40:7777/getGradeTop10"
             }).then(res=>{
+                this.rankList=res.res
                 console.log('list',res.res)
             })
         }
@@ -166,11 +167,17 @@ export default {
                     font-size: 14px;
                     color:#37A;
                     display: inline-block;
+                    height: 23px;
+                    width: 175px;
+                    overflow: hidden;
                     text-overflow:ellipsis; //文本溢出显示省略号；
                 }
                 .book-writer{
-                    font-size: 14px;
+                    font-size: 12px;
+                    height:18px;
                     width: 175px;
+                    display: inline-block;
+                    overflow: hidden;
                     display: -webkit-box;
                     text-overflow:ellipsis; //文本溢出显示省略号；
                 }
@@ -179,24 +186,11 @@ export default {
                 display: inline-block;
                 float: right;
                 margin-right:10px;
+                .grade{
+                    color: #f5a623;
+                }
             }
         }
-        // .title{
-        //     color:#000000;
-        //     font-size:14px;
-        // }
-        // .classify-content{
-        //     width: 100%;
-        //     margin-top: 10px;
-        //     .name{
-        //         color:#37A;
-        //         display: inline-block;
-        //         background-color:rgb(213, 219, 219);
-        //         padding:2px 5px;
-        //         margin:5px 0 0 10px;
-        //         // line-height: px;
-        //     }
-        // }
     }
 }
 

@@ -1,18 +1,23 @@
 <template>
     <div class="new-content">
-        <a class="title">
+        <div class="title">
             <span class="title_icon">
                 <img src="~@/assets/index/bullet1.gif" alt="" title="" />
             </span>
-            新书上架/更多
-        </a>
+            新书上架(30本)
+        </div>
         <div class="new_products">
             <div class="new_prod_box" v-for="item in newbookList">
-                <a href="details.html">{{item.name}}</a>
-                <div class="new_prod_bg">
-                <span class="new_icon"><img src="~@/assets/index/new_icon.gif" alt="" title="" /></span>
-                <a href="details.html"><img src="~@/assets/index/thumb1.gif" alt="" title="" class="thumb" border="0" /></a>
-                </div>           
+                <router-link 
+                    :to="{name:'details',query:{bookId:item.bookId}}"
+                >
+                    <a href="details.html">{{item.name}}</a>
+                    <div class="new_prod_bg">
+                        <span class="new_icon"><img src="~@/assets/index/new_icon.gif" alt="" title="" /></span>
+                        <!-- <a href="details.html"><img src="~@/assets/index/thumb1.gif" alt="" title="" class="thumb" border="0" /></a> -->
+                        <img class="thumb" :src="`https://images.weserv.nl/?url=${item.img}`">
+                    </div> 
+                </router-link>           
             </div>
         </div>
     </div>
@@ -21,7 +26,14 @@
 export default {
     data () {
         return {
+            bookNum:0,
             newbookList:[
+                {name:'爱生命',content:'爱你就想爱生命',price:'34',src:'~@/assets/newbook/1.jpg'},
+                {name:'Storm',content:'暴风雨中的孩子',price:'46',src:'~@/assets/newbook/3.jpg'},
+                {name:'ASKME',content:'儿童百科百问百答',price:'65',src:'~@/assets/newbook/2.jpg'},
+                {name:'松子',content:'被嫌弃的松子的一生',price:'32',src:'~@/assets/newbook/4.jpg'},
+                {name:'坚强',content:'不慌不忙的坚强',price:'26',src:'`@/assets/newbook/5.jpg'},
+                {name:'松子',content:'被嫌弃的松子的一生',price:'32',src:'~@/assets/newbook/4.jpg'},
                 {name:'爱生命',content:'爱你就想爱生命',price:'34',src:'~@/assets/newbook/1.jpg'},
                 {name:'Storm',content:'暴风雨中的孩子',price:'46',src:'~@/assets/newbook/3.jpg'},
                 {name:'ASKME',content:'儿童百科百问百答',price:'65',src:'~@/assets/newbook/2.jpg'},
@@ -31,7 +43,24 @@ export default {
             ]
         }
     },
+    mounted(){
+        this.init()
+    },
     methods:{
+        init(){
+            this.getBookList()
+        },
+        getBookList(){
+            this.$ajax({
+                method:'post',
+                url:'http://39.108.52.40:7777/getBooksOrderByDate',
+                params:{
+                    num:30
+                }
+            }).then(res=>{
+                this.newbookList=res.res
+            })
+        }
     }
 }
 </script>
@@ -41,7 +70,6 @@ export default {
     width:100%;
     padding: 20px 0 20px 20px;
     .title{
-        display: inline-block;
         color:#734633;
         font-size:19px;
         height:30px;
@@ -52,7 +80,7 @@ export default {
         }
     }
     .new_products{
-         width: 100%;
+        width: 100%;
         padding:10px 0;
         overflow:hidden;
         height: 100%;

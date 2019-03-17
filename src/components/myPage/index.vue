@@ -1,6 +1,12 @@
 <template>
     <div class="page-container">
-        <Page :total="page.total" :page-size="page.pageSize" :current="page.current" show-elevator />
+        <Page
+        :total="page.total"
+        :page-size="page.pageSize"
+        :current="page.current" 
+        show-elevator  
+        @on-change="changePage"
+        @on-page-num="changePageNum"/>
     </div>
 </template>
 

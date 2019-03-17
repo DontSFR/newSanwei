@@ -1,24 +1,25 @@
 <template>
-    <div class="main-content">
+    <!-- <div class="main-content"> -->
         <div class="left-content">
+            <my-recommend></my-recommend>
             <my-special></my-special>
             <my-newbook></my-newbook>
         </div>
-    </div>
+    <!-- </div> -->
 </template>
 <script>
-import mySpecial from '@/components/mySpecial.vue'
-import myNewbook from '@/components/myNewbook.vue'
+import mySpecial from '@/components/mainPage/mySpecial.vue'
+import myNewbook from '@/components/mainPage/myNewbook.vue'
+import myRecommend from '@/components/mainPage/myRecommend.vue'
     export default{
-        components: {mySpecial,myNewbook}
+        components: {mySpecial,myNewbook,myRecommend}
     }
 </script>
 <style lang="less" scoped>
 @import "~@/style/basic.less";
-.main-content{
-    width: 100%;
-    
-}
+// .main-content{
+//     width: 100%;
+// }
 .left-content{
     width: 65%;
     height: 100%;

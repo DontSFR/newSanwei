@@ -4,18 +4,29 @@
             <span class="title_icon">
                 <img src="~@/assets/index/bullet1.gif" alt="" title="" />
             </span>
-            <span>{{this.$route.query.id}}</span>
+            <span>{{this.$route.query.name}}</span>
         </div>
         <div class="new_products">
+            
             <div class="new_prod_box" v-for="item in newbookList">
-                <a href="details.html">{{item.name}}</a>
-                <div class="new_prod_bg">
-                    <a href="details.html"><img src="~@/assets/index/thumb1.gif" alt="" title="" class="thumb" border="0" /></a>
-                </div>           
+                <router-link 
+                    :to="{name:'details',query:{bookId:item.bookId}}"
+                >
+                    <span class="book-name">{{item.name}}</span>
+                    <div class="new_prod_bg">
+                        <img :src="`https://images.weserv.nl/?url=${item.img}`"alt="" title="" class="thumb" border="0" />
+                    </div>
+                </router-link>       
             </div>
         </div>
         <div class="page-container">
-            <Page :total="page.total" :page-size="page.pageSize" :current="page.current" show-elevator />
+            <Page 
+                :total="page.total" 
+                :page-size="page.pageSize" 
+                :current="page.pageNum" 
+                show-elevator 
+                @on-change="changePage"
+            />
         </div>
     </div>
 </template>
@@ -24,9 +35,9 @@ export default {
     data () {
         return {
             page:{
-                pageSize: 10,
+                pageSize: 15,
                 total: 0,
-                current: 1
+                pageNum: 1
             },
             newbookList:[
                 {name:'爱生命',content:'爱你就想爱生命',price:'34',src:'~@/assets/newbook/1.jpg'},
@@ -47,23 +58,41 @@ export default {
             categoryName:''
         }
     },
-    create(){
-        this.$route.query.id
+    mounted(){
+        this.init()
     },
-    // beforeRouteUpdate(to, from, next){
-    //     this.categoryName = to.params.name;
-    //     console.log('????',this.$route.params.name);
-    //     next();
-    //     // this.id = this.$route.params.id;
-    // },
+    create(){
+        //首先,当你修改了路由参数的时候,会发现你的页面数据并没有改变,数据是通过created这个生命周期从ajax获取到的.
+        this.$route.query.id,
+        this.$route.query.name,
+        this.getCategoryList()
+    },
     watch:{
         //监听相同路由下参数变化的时候，从而实现异步刷新
-        '$route'(to,from){
-            //做一些路由变化的响应
-            // console.log(to,'----',from)
-        },
+        //通过监听路由参数的改变来重新获取数据,这样,你只要改变了路由参数,数据也会跟着变化啦
+        "$route":"getCategoryList"
     },
     methods:{
+        init(){
+            this.getCategoryList()
+        },
+        getCategoryList(){
+            this.$ajax({
+                method:"post",
+                url:"http://39.108.52.40:7777/getBooksByType",
+                params:{
+                    ...this.page,
+                    type:this.$route.query.id
+                }
+            }).then(res=>{
+                this.page.total=res.res.total
+                this.newbookList=res.res.list
+            })
+        },
+        changePage(num){
+            this.page.pageNum=num
+            this.getCategoryList()
+        }
     }
 }
 </script>
@@ -93,11 +122,14 @@ export default {
             float:left;
             text-align:center;
             padding:0 10px;
-            a{
+            .book-name{
                 padding:5px 0 5px 0;
                 color:#b5b5b6;
                 text-decoration:none;
-                display:block;
+                display: inline-block;
+                width: 150px;
+                height: 26px;
+                overflow: hidden;
             }
             .new_prod_bg{
                 width:188px;

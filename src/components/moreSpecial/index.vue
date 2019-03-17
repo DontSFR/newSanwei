@@ -1,27 +1,32 @@
 <template>
     <div class="spcial-content">
-        <a class="title">
+        <div class="title">
             <span class="title_icon">
                 <img src="~@/assets/index/bullet1.gif" alt="" title="" />
             </span>
-            特色书籍/更多
-        </a>
-        <div class="feat_prod_box" v-for="(item,t) in newbookList">
+            特色书籍
+        </div>
+        <div class="feat_prod_box" v-for="(item,t) in bookList">
             <div class="prod_img">
-                <router-link :to="'/details'" >
-                    <a >
-                        <img src="~@/assets/index/prod1.gif" alt="" title="" border="0" />
-                    </a>
-                </router-link> 
+                <img :src="`https://images.weserv.nl/?url=${item.img}`">
             </div>
             <div class="prod_det_box">
                 <div class="prod_title">{{item.name}}</div>
-                <p class="details">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                <router-link :to="'/details'" >
-                    <a  class="more">- more details -</a> 
+                <p class="details">{{item.introduce}}</p>
+                <router-link class="more" :to="{name:'details',query:{bookId:item.bookId}}" >
+                    <span  >- 更多详情 -</span> 
                 </router-link>
                 <div class="clear"></div>
             </div>
+        </div>
+        <div class="page-container">
+            <Page 
+                :total="page.total" 
+                :page-size="page.pageSize" 
+                :current="page.pageNum" 
+                show-elevator 
+                @on-change="changePage"
+            />
         </div>
     </div>
 </template>
@@ -29,11 +34,43 @@
 export default {
     data () {
         return {
-            newbookList:[
+            page:{
+                pageNum: 1,
+                pageSize:10,
+                total: 0
+            },
+            bookList:[
                 {name:'爱生命',content:'爱你就想爱生命',price:'34',src:'~@/assets/newbook/1.jpg'},
                 {name:'Storm',content:'暴风雨中的孩子',price:'46',src:'~@/assets/newbook/3.jpg'},
-                {name:'ASKME',content:'儿童百科百问百答',price:'65',src:'~@/assets/newbook/2.jpg'}
+                {name:'ASKME',content:'儿童百科百问百答',price:'65',src:'~@/assets/newbook/2.jpg'},
+                {name:'爱生命',content:'爱你就想爱生命',price:'34',src:'~@/assets/newbook/1.jpg'},
+                {name:'Storm',content:'暴风雨中的孩子',price:'46',src:'~@/assets/newbook/3.jpg'}
             ]
+        }
+    },
+    mounted(){
+        this.init()
+    },
+    methods:{
+        init(){
+            this.getBookList()
+        },
+        getBookList(){
+            this.$ajax({
+                method:'post',
+                url:'http://39.108.52.40:7777/getBooksByType',
+                params:{
+                    type:12,
+                    ...this.page
+                }
+            }).then(res=>{
+                this.page.total=res.res.total
+                this.bookList=res.res.list
+            })
+        },
+        changePage(num){
+            this.page.pageNum=num
+            this.getBookList()
         }
     }
 }
@@ -43,9 +80,9 @@ export default {
 .spcial-content{
     width:100%;
     height: 100%;
+    overflow: hidden;
     padding: 20px 0 0 20px;
     .title{
-        display: inline-block;
         color:#734633;
         font-size:19px;
         height:30px;
@@ -103,6 +140,11 @@ export default {
         margin-left: 25px;
         padding:0 0 0 25px;
         position:relative;
+    }
+    .page-container{
+        width: 100%;
+        text-align: center;
+        padding-bottom: 20px;
     }
 }
 

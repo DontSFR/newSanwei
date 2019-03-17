@@ -9,7 +9,7 @@
 <script>
 import myHeader from '@/components/public/myHeader.vue'
 import myBannerx from '@/components/public/myBannerx.vue'
-import rightContent from '@/components/rightContent.vue'
+import rightContent from '@/components/public/rightContent.vue'
     export default{
         components: {myHeader,myBannerx,rightContent},
     }
