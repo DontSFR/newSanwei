@@ -36,7 +36,7 @@ export default {
         return {
             page:{
                 pageNum: 1,
-                pageSize:10,
+                pageSize:6,
                 total: 0
             },
             bookList:[

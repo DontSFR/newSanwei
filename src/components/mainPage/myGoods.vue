@@ -7,12 +7,12 @@
             <div class="main center">
 				<div class="content">
 					<li class="remen fl" v-for="item in recommendList">
-						<div class="tu"><a href=""><img v-bind:src="item.src"></a></div>
-						<div class="miaoshu"><a href="">{{item.name}}</a></div>
+						<div class="tu"><a><img v-bind:src="item.src"></a></div>
+						<div class="miaoshu"><a>{{item.name}}</a></div>
 						<div class="jiage">{{item.price}}元</div>
 						<div class="pingjia">{{item.comment}}人评价</div>
 						<div class="piao">
-							<a href="">
+							<a>
 								<span>{{item.detail}}</span>
 							</a>
 						</div>

@@ -13,11 +13,11 @@
                 <router-link 
                     :to="{name:'details',query:{bookId:item.bookId}}"
                 >
-                    <a href="details.html">{{item.name}}</a>
+                    <a>{{item.name}}</a>
                     <div class="new_prod_bg">
                         <span class="new_icon"><img src="~@/assets/index/new_icon.gif" alt="" title="" /></span>
-                        <!-- <a href="details.html"><img src="~@/assets/index/thumb1.gif" alt="" title="" class="thumb" border="0" /></a> -->
                         <img class="thumb" :src="`https://images.weserv.nl/?url=${item.img}`">
+                        <a>{{item.writer}}</a>
                     </div> 
                 </router-link>           
             </div>

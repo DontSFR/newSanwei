@@ -17,12 +17,17 @@
             <div class="demo" v-if="menuTab">
                 <div class="new_products">
                     <div class="new_prod_box" v-for="item in newbookList">
-                        <a href="details.html">{{item.name}}</a>
-                        <div class="new_prod_bg">
-                            <!-- <Icon class="new_icon" color='#f34f4f' size="24" type="ios-heart"/> -->
-                            <span class="new_icon"><img src="~@/assets/index/collect.jpg" alt="" title="" /></span>
-                            <a href="details.html"><img src="~@/assets/index/thumb1.gif" alt="" title="" class="thumb" border="0" /></a>
-                        </div>
+                        <router-link 
+                            :to="{name:'details',query:{bookId:item.bookId}}"
+                        >
+                            <a>{{item.name}}</a>
+                            <div class="new_prod_bg">
+                                <!-- <Icon class="new_icon" color='#f34f4f' size="24" type="ios-heart"/> -->
+                                <span class="new_icon"><img src="~@/assets/index/collect.jpg" alt="" title="" /></span>
+                                <img  class="thumb" :src="`https://images.weserv.nl/?url=${item.img}`"/>
+                                <a>{{item.writer}}</a>
+                            </div>
+                        </router-link>
                     </div>          
                 </div>
             </div> 
@@ -100,7 +105,25 @@ export default {
             ]
         }
     },
+    
+    mounted(){
+        this.init()
+    },
     methods:{
+        init(){
+            this.getBookList()
+        },
+        getBookList(){
+            this.$ajax({
+                method:'post',
+                url:'/getCollections',
+                params:{
+                    userId:this.$cookies.get('userId')
+                }
+            }).then(res=>{
+                this.newbookList=res.res
+            })
+        },
         selectMenu(index){
             this.menuTab=(index===1)
         }

@@ -1,5 +1,5 @@
 <template>
-    <div class="menu">
+    <div class="menu"  :class="{'fixed':isfix}">
         <Menu class="selected" ref="side_menu" mode="horizontal" :active-name="activeName">
             <MenuItem name="index">
                 <router-link to='/index' class="a-link">
@@ -28,9 +28,10 @@
             </MenuItem>
         </Menu>
         <div class="right-selected">
-            <router-link to='/login' class="a-link login">
-                登录
-            </router-link>
+                <span class="login" v-if="ifLogin"  @click="loginOut">退出登录</span>
+                <span class="notLogin"  v-else  @click="loginUser"> 
+                    登录
+                </span>
         </div>
     </div>
 </template>
@@ -38,7 +39,9 @@
 export default {
     data () {
         return {
+            isfix:false,
             activeName: '',
+            ifLogin:'false',
             menuList: [
                 {
                     path: 'index',
@@ -63,6 +66,8 @@ export default {
             ]
         }
     },
+    mounted () {
+    },
     created(){
         this.$route.name
     },
@@ -76,9 +81,11 @@ export default {
     },
     mounted () {
         this.init()
+        window.addEventListener('scroll', this.handleScroll)
     },
     methods: {
         init () {
+            this.ifLogin=(this.$cookies.get('userId')!==null)
             this.menuList.forEach(t => {
                 if (t.name === this.$route.name) {
                     this.activeName = this.$route.name
@@ -87,6 +94,20 @@ export default {
             this.$nextTick(() => {
                 this.$refs.side_menu.updateActiveName()
             })
+        },
+        handleScroll () {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+            console.log('scroll',scrollTop)
+            this.isfix=(scrollTop>170)
+        },
+        loginUser(){
+            this.ifLogin=true
+            this.$cookies.remove('userId')
+            this.$router.push({path:'/login'});
+        },
+        loginOut(){
+            this.ifLogin=false
+            this.$cookies.remove('userId')
         }
     }
 
@@ -96,7 +117,12 @@ export default {
 <style lang="less" scoped>
 @import "~@/style/basic.less";
 .menu{
+    position:static;
+    background:url("~@/assets/index/banner.png") no-repeat center;
+    -moz-background-size:100% 100%; 
+    background-size:100% 100%;
     width:@win-width-xmin;
+    height:35px;
     .selected{
         // margin-top: -25px;
         width: 80%;
@@ -108,16 +134,30 @@ export default {
         height:30px;
         width: 20%;
         line-height: 30px;
+        .notLogin{
+            display: inline-block;
+            width: 28px;
+            color: #fff;
+            margin-left: 60%;
+            cursor:pointer;
+        }
         .login{
             display: inline-block;
             width: 50px;
+            color:#f7a849;
             margin-left: 60%;
+            cursor:pointer;
         }
         .personer{
             display: inline-block;
             width: 50px;
         }
     }
+}
+.fixed{
+    position:fixed;
+    top:0;
+    z-index:9;
 }
 /deep/.ivu-menu-horizontal{
         height:30px;
@@ -137,6 +177,9 @@ export default {
 }
 /deep/.ivu-menu-horizontal.ivu-menu-light:after{
     background: none;
+}
+.a-link{
+    color: #fff;
 }
 .a-link:hover{
     color:#f7a849;

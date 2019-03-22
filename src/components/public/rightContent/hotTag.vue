@@ -56,7 +56,7 @@ export default {
     }
     .classify-box{
         padding:0 0 30px 10px;
-        margin:0 20px 20px 0;
+        margin-right:20px;
         border-bottom:1px #b2b2b2 dashed;
         .title{
             color:#000000;

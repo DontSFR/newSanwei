@@ -3,16 +3,16 @@
         <div class="user-massage">
             <Avatar class="user-img" size="large" src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
             <div  class="message">
-                <p class="name">John.Smith</p>
-                <p>17858287600</p>
+                <p class="name">{{userInfo.account}}</p>
+                <p>{{userInfo.email}}</p>
             </div>
             <div  class="active">
                 <span class="num-content">
-                    <p class="num">64</p>
+                    <p class="num">{{collectNum}}</p>
                     <p class="title">收藏数</p>
                 </span>
                 <span class="num-content">
-                    <p class="num">64</p>
+                    <p class="num">{{commendNum}}</p>
                     <p class="title">评论数</p>
                 </span>
             </div>
@@ -21,6 +21,44 @@
 </template>
 <script>
 export default {
+    data(){
+        return{
+            userInfo:'',
+            collectNum:0,
+            commendNum:0
+        }
+    },
+    mounted(){
+        this.init()
+    },
+    methods:{
+        init(){
+            this.getUserInfo()
+            this.geCollect()
+        },
+        getUserInfo(){
+            this.$ajax({
+                method:'post',
+                url:'/userInfo',
+                params:{
+                    userId:this.$cookies.get('userId')
+                }
+            }).then(res=>{
+                this.userInfo=res.res
+            })
+        },
+        geCollect(){
+            this.$ajax({
+                method:'post',
+                url:'/getCollections',
+                params:{
+                    userId:this.$cookies.get('userId')
+                }
+            }).then(res=>{
+                this.collectNum=res.res.length
+            })
+        },
+    }
 }
 </script>
 <style lang="less" scoped>

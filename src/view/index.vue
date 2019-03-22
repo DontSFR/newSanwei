@@ -9,7 +9,7 @@
 <script>
 import myHeader from '@/components/public/myHeader.vue'
 import myBannerx from '@/components/public/myBannerx.vue'
-import rightContent from '@/components/public/rightContent.vue'
+import rightContent from '@/components/public/rightContent/index.vue'
     export default{
         components: {myHeader,myBannerx,rightContent},
     }
@@ -19,5 +19,6 @@ import rightContent from '@/components/public/rightContent.vue'
 .main-content{
     width:@win-width-xmin;
     margin: 0 auto;
+    position: relative;
 }
 </style>

@@ -3,17 +3,15 @@
         <span class="detail-title">书本详情</span>
         <div class="title">
             <span class="title_icon">
-                <img src="~@/assets/index/bullet1.gif"
+                <img src="~@/assets/index/bullet3.gif"
                 alt=""
                 title="" />
             </span>
             {{bookDetails.name}}
         </div>
-        <div class="left-content"  >
+        <div class="left-content">
             <div class="prod_img">
-                <a href="details.html">
-                    <img class="book-img" :src="`https://images.weserv.nl/?url=${bookDetails.img}`"/>
-                </a>
+                <img class="book-img" :src="`https://images.weserv.nl/?url=${bookDetails.img}`"/>
             </div>
             <div class="detail-content">
                 <div class="prod_det_box">
@@ -65,30 +63,24 @@
                     <Badge :count="commentsCount" class="demo-badge-alone"></Badge>
                 </MenuItem>
             </Menu>
-            <div class="content">
+            <div class="content"> 
                 <!-- 简介区域-->
                 <div class="demo"  v-if="menuTab">
                     <Divider orientation="left" class="divider" v-model="textname">{{textname}}</Divider>
                     <p class="text">
-                        《海边理发店》是作家荻原浩获直木奖的短篇小说集，一家原本顾客如织的理发店，不知为何从市中心搬来了这僻静的海边，只有店主一个人在打理。人们怀着不为人知的秘密到来。店主一边理发，一边为你讲述顾客们留下的故事。
-                        在结婚前打算鼓起勇气见见父亲的儿子、代替已逝的女儿出席成人礼的父母……六段亦真亦幻的故事，抚平留在时光中的爱与悔恨。来这家店讲述你的秘密吧，即使再微弱的光，也能照亮晦暗的人生。
-                        《海边理发店》不仅获直木奖、全国书店大奖、《达文西》年度之书，更获直木奖评委浅田次郎、林真理子、桐野夏生、伊集院静全票支持，被誉为丝毫不输《解忧杂货店》的感动。 在这本书中，与世界达成和解吧。
+                        {{bookDetails.detail.content}}
                     </p>
                     <Divider orientation="left" class="divider" v-model="catalog">{{catalog}}</Divider>
                     <p class="text">
-                        《海边理发店》是作家荻原浩获直木奖的短篇小说集，一家原本顾客如织的理发店，不知为何从市中心搬来了这僻静的海边，只有店主一个人在打理。人们怀着不为人知的秘密到来。店主一边理发，一边为你讲述顾客们留下的故事。
-                        在结婚前打算鼓起勇气见见父亲的儿子、代替已逝的女儿出席成人礼的父母……六段亦真亦幻的故事，抚平留在时光中的爱与悔恨。来这家店讲述你的秘密吧，即使再微弱的光，也能照亮晦暗的人生。
-                        《海边理发店》不仅获直木奖、全国书店大奖、《达文西》年度之书，更获直木奖评委浅田次郎、林真理子、桐野夏生、伊集院静全票支持，被誉为丝毫不输《解忧杂货店》的感动。 在这本书中，与世界达成和解吧。
+                        {{bookDetails.detail.catelog}}
                     </p>
                     <Divider orientation="left" class="divider" v-model="writerIntro">{{writerIntro}}</Divider>
                     <p class="text">
-                        《海边理发店》是作家荻原浩获直木奖的短篇小说集，一家原本顾客如织的理发店，不知为何从市中心搬来了这僻静的海边，只有店主一个人在打理。人们怀着不为人知的秘密到来。店主一边理发，一边为你讲述顾客们留下的故事。
-                        在结婚前打算鼓起勇气见见父亲的儿子、代替已逝的女儿出席成人礼的父母……六段亦真亦幻的故事，抚平留在时光中的爱与悔恨。来这家店讲述你的秘密吧，即使再微弱的光，也能照亮晦暗的人生。
-                        《海边理发店》不仅获直木奖、全国书店大奖、《达文西》年度之书，更获直木奖评委浅田次郎、林真理子、桐野夏生、伊集院静全票支持，被誉为丝毫不输《解忧杂货店》的感动。 在这本书中，与世界达成和解吧。
+                        {{bookDetails.detail.writer}}
                     </p>
                 </div> 
                 <!-- 评论区域-->
-                <div class="demo" v-else>
+                <div class="demo" v-else >
                     <div class="your-comment" @click="leaveComment">
                         <Icon type="ios-create-outline" color='#37A' size="24"/>
                         <span>留下你的评论</span>
@@ -169,12 +161,38 @@
                         method:'post',
                         url:'http://39.108.52.40:7777/addCollect',
                         params:{
-                            bookId:this.$route.query.bookId
+                            bookId:this.$route.query.bookId,
+                            userId:this.$cookies.get('userId')
                         }
                     }).then(res=>{
                         if(res.code===200){
                             this.collectValue=true
-                        }else if(res.code===200){
+                            this.$Notice.success({
+                                title: '收藏成功'
+                            })
+                        }else if(res.code===500){
+                            if(res.reason==="用户未登录"){
+                                this.$Notice.error({
+                                    title: '收藏失败，用户未登录' 
+                                })
+                            }
+                        }
+                    })
+                }else{
+                    this.$ajax({
+                        method:'post',
+                        url:'/deleteCollect',
+                        params:{
+                            bookId:this.$route.query.bookId,
+                            userId:this.$cookies.get('userId')
+                        }
+                    }).then(res=>{
+                        if(res.code===200){
+                            this.collectValue = false
+                            this.$Notice.success({
+                                title: '已取消收藏'
+                            })
+                        }else if(res.code===500){
                             if(res.reason==="用户未登录"){
                             }
                         }
@@ -186,14 +204,15 @@
                     method:'post',
                     url:'http://39.108.52.40:7777/getBookById',
                     params:{
-                        bookId:this.$route.query.bookId
+                        bookId:this.$route.query.bookId,
+                        userId:this.$cookies.get('userId')
                     }
                 }).then(res=>{
                     this.bookDetails=res.res
                     let grade = this.bookDetails.grade
+                    this.collectValue=res.res.hadCollected//查看是否收藏
                     grade=parseFloat(grade)//字符串转化为数字
                     this.valueCustomText=parseFloat((grade/2).toFixed(1))//数字除以2再转化为number类型
-                    this.collectValue=res.hadCollected
                 })
             },
             selectMenu(index){

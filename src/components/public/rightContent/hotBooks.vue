@@ -7,7 +7,7 @@
             热评TOP10
         </div>
         <div class="classify-box" >
-            <div class="ranking-content"  v-for="(t,i) in rankList">
+            <div class="ranking-content" v-for="(t,i) in rankList">
                 <span class="nunmber">{{i+1}}.</span>
                 <div class="name-writer">
                     <router-link 
@@ -117,7 +117,6 @@ export default {
                 url:"http://39.108.52.40:7777/getGradeTop10"
             }).then(res=>{
                 this.rankList=res.res
-                console.log('list',res.res)
             })
         }
     }
@@ -141,14 +140,13 @@ export default {
     }
     .classify-box{
         padding:0 0 10px 10px;
-        // height:100%;
+        height:610px;
         margin:0 20px 20px 0;
         .ranking-content{
             border-bottom:1px #b2b2b2 dashed;
-            padding-left: 20px;
+            padding: 5px 0 0 20px;
             width:100%;
-            height: 50px;
-            // background-color: rgb(141, 170, 154);
+            height: 60px;
             .nunmber{
                 font-size: 14px;
                 width: 15px;

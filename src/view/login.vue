@@ -15,7 +15,7 @@
                         <Icon class="icon" type="md-unlock" size='22'color='#448CBB' />
                     </div>
                     <div class="text-right">
-                        <a href="javascript:">忘记密码？</a>
+                        <a>忘记密码？</a>
                     </div>
                     <div class="container-login-btn">
                         <a class="login-btn"  @click="submit">登 录</a>
@@ -52,7 +52,8 @@ export default {
                 }
                 }).then(res => {
                     if(res.code===200){
-                        // this.$cookies.set('userId', res.res.userId)
+                        this.$cookies.set('userId', res.res.userId)
+                        console.log('this.$cookies-----',this.$cookies.get('userId'))
                         this.$router.push({path: '/index'})//登录成功后跳转到指定页面
                     }else{
                         this.$Notice.error({
