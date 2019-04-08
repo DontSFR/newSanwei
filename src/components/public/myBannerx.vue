@@ -97,13 +97,12 @@ export default {
         },
         handleScroll () {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-            console.log('scroll',scrollTop)
             this.isfix=(scrollTop>170)
         },
         loginUser(){
-            this.ifLogin=true
             this.$cookies.remove('userId')
-            this.$router.push({path:'/login'});
+            this.$router.push({path:'/login'}); 
+            this.ifLogin=true 
         },
         loginOut(){
             this.ifLogin=false
@@ -118,6 +117,7 @@ export default {
 @import "~@/style/basic.less";
 .menu{
     position:static;
+    z-index: 999;
     background:url("~@/assets/index/banner.png") no-repeat center;
     -moz-background-size:100% 100%; 
     background-size:100% 100%;
@@ -157,7 +157,7 @@ export default {
 .fixed{
     position:fixed;
     top:0;
-    z-index:9;
+    z-index:9999;
 }
 /deep/.ivu-menu-horizontal{
         height:30px;

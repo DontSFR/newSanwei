@@ -44,6 +44,11 @@ const routes =  [
         component: r => require.ensure([], () => r(require('../view/details/index.vue')), 'details')
       },
       {
+        path:'search',
+        name:'search',
+        component: r => require.ensure([], () => r(require('../view/searchBook/index.vue')), 'search')
+      },
+      {
         path:'category',
         name:'category',
         component: r => require.ensure([], () => r(require('../view/category/index.vue')), 'category')

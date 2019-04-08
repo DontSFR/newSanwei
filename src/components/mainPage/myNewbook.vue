@@ -48,7 +48,7 @@ export default {
         getBookList(){
             this.$ajax({
                 method:'post',
-                url:'http://39.108.52.40:7777/getBooksOrderByDate',
+                url:'/getBooksOrderByDate',
                 params:{
                     num:6
                 }

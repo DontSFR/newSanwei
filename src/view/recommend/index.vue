@@ -15,7 +15,6 @@ import moreRecommend from "@/components/moreRecommend/index.vue";
 @import "~@/style/basic.less";
 .main-content{
     width: 100%;
-    
 }
 .left-content{
     width: 65%;

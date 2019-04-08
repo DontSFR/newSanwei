@@ -1,7 +1,7 @@
 <template>
     <div>
         <header>
-            <div class="logo"><a><img src="~@/assets/index/logo.gif" alt="" title="" border="0" /></a></div>
+            <div class="logo"><a><img src="~@/assets/index/storeTitle.png" alt="" title="" border="0" /></a></div>
         </header>        
     </div>
 </template>
@@ -15,7 +15,7 @@
         -moz-background-size:100% 100%; 
         background-size:100% 100%;
         .logo{
-            padding:30px 0 0 250px;
+            padding:50px 0 0 150px;
         }
     }
 </style>

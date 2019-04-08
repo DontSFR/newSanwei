@@ -45,6 +45,7 @@ export default {
                 }
             }).then(res=>{
                 this.userInfo=res.res
+                this.commendNum=res.res.personalComments.length
             })
         },
         geCollect(){
@@ -66,9 +67,6 @@ export default {
 .person-top{
     width: 100%;
     height: 200px;
-    // background: url("~@/assets/index/c4.jpg") center center;
-    // opacity:0.5;
-    // background-size:cover;
     overflow: hidden;
     .user-massage{
         width: 85%;

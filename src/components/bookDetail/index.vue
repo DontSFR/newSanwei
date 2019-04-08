@@ -45,9 +45,11 @@
                     <Button class="collect-button"  type="warning" shape="circle" v-if="collectValue" @click="getCollect(0)">取消收藏</Button>
                     <Button class="collect-button"   shape="circle"  v-else  @click="getCollect(1)">收&nbsp;&nbsp;藏</Button>
                     <span>你的评价:</span>
-                    <Rate show-text allow-half v-model="yourRateValue">
-                        <span style="color: #f5a623">{{ yourRateValue*2 }}</span>
-                    </Rate>
+                    <div class="rate-container" @click='changeRate'>
+                        <Rate show-text allow-half v-model="yourRateValue" :disabled='rateDisabled' >
+                            <span style="color: #f5a623">{{ yourRateValue*2 }}</span>
+                        </Rate>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,7 +100,7 @@
                     <div class="comment-container" v-for="item in bookDetails.comments">
                         <div class="user-message">
                             <p class="user-name">{{item.person}}</p>
-                            <p class="user-grade">评分：{{item.grade||'无'}}</p>
+                            <p class="user-grade">评分：{{item.commentGrade||'无'}}</p>
                             <p class="user-date">{{item.commentDate}}</p>
                         </div>
                         <div class="comment-message">
@@ -116,6 +118,7 @@
         data () {
             return {
                 id:12345,
+                rateDisabled:true,
                 commentsCount:0,
                 valueCustomText: 0,
                 yourRateValue:0,
@@ -148,6 +151,9 @@
         create(){
             this.$route.query.bookId
         },
+        // watch(){
+        //     this.getBookDeails()
+        // },
         mounted(){
             this.init()
         },
@@ -159,7 +165,7 @@
                 if(index===1){//收藏
                     this.$ajax({
                         method:'post',
-                        url:'http://39.108.52.40:7777/addCollect',
+                        url:'/addCollect',
                         params:{
                             bookId:this.$route.query.bookId,
                             userId:this.$cookies.get('userId')
@@ -202,7 +208,7 @@
             getBookDeails(){
                 this.$ajax({
                     method:'post',
-                    url:'http://39.108.52.40:7777/getBookById',
+                    url:'/getBookById',
                     params:{
                         bookId:this.$route.query.bookId,
                         userId:this.$cookies.get('userId')
@@ -211,9 +217,36 @@
                     this.bookDetails=res.res
                     let grade = this.bookDetails.grade
                     this.collectValue=res.res.hadCollected//查看是否收藏
+                    this.yourRateValue=res.res.currentUserGrade/2//查看最后一次评价的分数
                     grade=parseFloat(grade)//字符串转化为数字
                     this.valueCustomText=parseFloat((grade/2).toFixed(1))//数字除以2再转化为number类型
                 })
+            },
+            changeRate(){
+                if(this.$cookies.get('userId')){
+                    this.rateDisabled=false
+                    this.$ajax({
+                        method:'post',
+                        url:'/applyComment',
+                        params:{
+                            bookId:this.$route.query.bookId,
+                            userId:this.$cookies.get('userId'),
+                            grade:(this.yourRateValue*2)
+                        }
+                    }).then(res=>{
+                            if(res.code===200){
+                                this.$Notice.success({
+                                    title: '评价成功'
+                                })
+                                this.getBookDeails()
+                            }
+                        })
+                }else{
+                    this.$Notice.error({
+                        title: '评价失败，用户未登录'
+                    })
+                }
+                console.log('rate',this.yourRateValue)
             },
             selectMenu(index){
                 this.menuTab=(index===1)
@@ -222,6 +255,28 @@
                 this.commentModal=true
             },
             commentSend(){
+                if(this.commentText===''){
+                    this.$Notice.error({
+                        title: '评论内容不能为空'
+                    })
+                }else{
+                    this.$ajax({
+                        method:'post',
+                        url:'/applyComment',
+                        params:{
+                            bookId:this.$route.query.bookId,
+                            userId:this.$cookies.get('userId'),
+                            commentContent:this.commentText
+                        }
+                    }).then(res=>{
+                        if(res.code===200){
+                            this.$Notice.success({
+                                title: '评论成功'
+                            })
+                            this.getBookDeails()
+                        }
+                    })
+                }
                 this.commentText=''
             },
             commentCancel(){
@@ -264,6 +319,11 @@
             .your-rate{
                 line-height: 50px;
                 height:50px;
+                .rate-container{
+                    display: inline-block;
+                    // background-color: #37A;
+                    line-height: 16px;
+                }
                 /deep/.ivu-btn-circle{
                     width: 66px;
                 }

@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     searchLampPole () {
-        this.$router.push({path:'/category'});
+      this.$router.push({path:'/search',query:{keyword:this.searchName}})
     }
   }
 }

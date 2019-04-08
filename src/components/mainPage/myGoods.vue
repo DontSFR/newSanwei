@@ -32,21 +32,7 @@ export default {
                 {name:'ASKME',content:'儿童百科百问百答',comment:'365',price:'65',src:'../assets/newbook/2.jpg'},
                 {name:'松子',content:'被嫌弃的松子的一生',comment:'46',price:'32',src:'../assets/newbook/4.jpg'},
                 {name:'坚强',content:'不慌不忙的坚强',comment:'50',price:'26',src:'../assets/newbook/5.jpg'},
-                {name:'2爱生命',content:'爱你就想爱生命',comment:'59',price:'34',src:'../assets/newbook/1.jpg'},
-                {name:'2Storm',content:'暴风雨中的孩子',comment:'754',price:'46',src:'../assets/newbook/3.jpg'},
-                {name:'2ASKME',content:'儿童百科百问百答',comment:'365',price:'65',src:'../assets/newbook/2.jpg'},
-                {name:'2松子',content:'被嫌弃的松子的一生',comment:'46',price:'32',src:'../assets/newbook/4.jpg'},
-                {name:'2坚强',content:'不慌不忙的坚强',comment:'50',price:'26',src:'../assets/newbook/5.jpg'},
-                {name:'3爱生命',content:'爱你就想爱生命',comment:'59',price:'34',src:'../assets/newbook/1.jpg'},
-                {name:'3Storm',content:'暴风雨中的孩子',comment:'754',price:'46',src:'../assets/newbook/3.jpg'},
-                {name:'3ASKME',content:'儿童百科百问百答',comment:'365',price:'65',src:'../assets/newbook/2.jpg'},
-                {name:'3松子',content:'被嫌弃的松子的一生',comment:'46',price:'32',src:'../assets/newbook/4.jpg'},
-                {name:'3坚强',content:'不慌不忙的坚强',comment:'50',price:'26',src:'../assets/newbook/5.jpg'},
-                {name:'4爱生命',content:'爱你就想爱生命',comment:'59',price:'34',src:'../assets/newbook/1.jpg'},
-                {name:'4Storm',content:'暴风雨中的孩子',comment:'754',price:'46',src:'../assets/newbook/3.jpg'},
-                {name:'4ASKME',content:'儿童百科百问百答',comment:'365',price:'65',src:'../assets/newbook/2.jpg'},
-                {name:'4松子',content:'被嫌弃的松子的一生',comment:'46',price:'32',src:'../assets/newbook/4.jpg'},
-                {name:'4坚强',content:'不慌不忙的坚强',comment:'50',price:'26',src:'../assets/newbook/5.jpg'},
+                {name:'2爱生命',content:'爱你就想爱生命',comment:'59',price:'34',src:'../assets/newbook/1.jpg'}
             ]
         }
     },
@@ -54,7 +40,7 @@ export default {
          queryData () {
             this.$ajax({
                 method: 'POST',
-                url:'http://192.168.0.107:7777/getBooks'
+                url:'/getBooks'
             }).then((data) => {
                 console.log(data)
             })

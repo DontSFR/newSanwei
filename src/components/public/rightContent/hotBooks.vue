@@ -114,7 +114,7 @@ export default {
         getRankList(){
             this.$ajax({
                 method:"post",
-                url:"http://39.108.52.40:7777/getGradeTop10"
+                url:"/getGradeTop10"
             }).then(res=>{
                 this.rankList=res.res
             })

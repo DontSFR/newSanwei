@@ -3,10 +3,9 @@
         <Page
         :total="page.total"
         :page-size="page.pageSize"
-        :current="page.current" 
+        :current="page.pageNum" 
         show-elevator  
-        @on-change="changePage"
-        @on-page-num="changePageNum"/>
+        @on-change="changePage"/>
     </div>
 </template>
 
@@ -19,7 +18,7 @@ export default {
             return {
             pageSize: 10,
             total: 0,
-            current: 1
+            pageNum: 1
             }
         }
     }

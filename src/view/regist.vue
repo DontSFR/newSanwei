@@ -45,36 +45,38 @@ export default {
             form:{
                 password:'',
                 account:'',
-                mobile:'',
-                email:''
+                email:'',
+                mobile:''
             }
         }
     },
     methods:{
         submit () {
-            if (this.form.account && this.form.password) {
+            if (this.form.account && this.form.password&& this.form.email) {
                 this.$ajax({
                 method: 'post',
-                url: '/regist',
+                url: '/apply',
                 isFormData:true,
-                data: {
+                pramas: {
                     ...this.form,
                 }
                 }).then(res => {
-                    if(res.success===true){
+                    // console.log('siccenss',res)
+                    if(res.code=500){
+                        this.$Notice.error({
+                            title:res.reason
+                        })
+                        
+                    }else if(res.code=200){
                         this.$Notice.open({
                             title:'注册成功'
                         })
                         this.$router.push({path: '/login'})//登录成功后跳转到指定页面
-                    }else{
-                        this.$Notice.error({
-                            title:res.message
-                        })
                     }
                 })
             } else {
                 this.$Notice.error({
-                title: '请填写账号与密码！'
+                title: '请填写账号、密码以及账号！'
                 })
             }
         }

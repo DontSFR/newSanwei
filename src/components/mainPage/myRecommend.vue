@@ -47,9 +47,7 @@ export default {
                 {name:'爱生命',grade:9.4,content:'爱你就想爱生命',price:'34',src:'~@/assets/index/prod1.gif'},
                 {name:'Storm',grade:9.3,content:'暴风雨中的孩子',price:'46',src:'~@/assets/newbook/3.jpg'},
                 {name:'ASKME',grade:9.2,content:'儿童百科百问百答',price:'65',src:'~@/assets/newbook/2.jpg'},
-                {name:'爱生命',grade:9.1,content:'爱你就想爱生命',price:'34',src:'~@/assets/index/prod1.gif'},
-                {name:'Storm',grade:9.4,content:'暴风雨中的孩子',price:'46',src:'~@/assets/newbook/3.jpg'},
-                {name:'ASKME',grade:9.4,content:'儿童百科百问百答',price:'65',src:'~@/assets/newbook/2.jpg'}
+                {name:'爱生命',grade:9.1,content:'爱你就想爱生命',price:'34',src:'~@/assets/index/prod1.gif'}
             ]
         }
     },
@@ -63,7 +61,7 @@ export default {
         getBookList(){
             this.$ajax({
                 method:'post',
-                url:'http://39.108.52.40:7777/getBooksByType',
+                url:'/getBooksByType',
                 params:{
                     type:11,
                     ...this.page

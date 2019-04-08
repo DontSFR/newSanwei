@@ -1,34 +1,40 @@
 <template>
-    <div class="new-content">
-        <div class="title">
-            <span class="title_icon">
-                <img src="~@/assets/index/bullet2.gif" alt="" title="" />
-            </span>
-            <span>{{this.$route.query.name}}</span>
-        </div>
-        <div class="new_products">
-            
-            <div class="new_prod_box" v-for="item in newbookList">
-                <router-link 
-                    :to="{name:'details',query:{bookId:item.bookId}}"
-                >
-                    <span class="book-name">{{item.name}}</span>
-                    <div class="new_prod_bg">
-                        <img :src="`https://images.weserv.nl/?url=${item.img}`"alt="" title="" class="thumb" border="0" />
-                    </div>
-                </router-link>       
+<div class="main-content">
+    <div class="left-content">
+        <div class="new-content">
+            <div class="title">
+                <span class="title_icon">
+                    <img src="~@/assets/index/bullet2.gif" alt="" title="" />
+                </span>
+                <span>搜索结果</span>
+            </div>
+            <div class="new_products" v-if="newbookList.length!==0">
+                <div class="new_prod_box"  v-for="item in newbookList">
+                    <router-link 
+                        :to="{name:'details',query:{bookId:item.bookId}}"
+                    >
+                        <span class="book-name">{{item.name}}</span>
+                        <div class="new_prod_bg">
+                            <img :src="`https://images.weserv.nl/?url=${item.img}`"alt="" title="" class="thumb" border="0" />
+                        </div>
+                    </router-link>       
+                </div>
+            </div>
+            <div class="new_products" v-else>
+                <p class="notice">书库里暂时找不到你想要的书!</p>
+            </div>
+            <div class="page-container"  v-show="newbookList.length!==0">
+                <Page 
+                    :total="page.total" 
+                    :page-size="page.pageSize" 
+                    :current="page.pageNum" 
+                    show-elevator 
+                    @on-change="changePage"
+                />
             </div>
         </div>
-        <div class="page-container">
-            <Page 
-                :total="page.total" 
-                :page-size="page.pageSize" 
-                :current="page.pageNum" 
-                show-elevator 
-                @on-change="changePage"
-            />
-        </div>
     </div>
+</div>
 </template>
 <script>
 export default {
@@ -54,8 +60,7 @@ export default {
                 {name:'松子',content:'被嫌弃的松子的一生',price:'32',src:'~@/assets/newbook/4.jpg'},
                 {name:'爱生命',content:'爱你就想爱生命',price:'34',src:'~@/assets/newbook/1.jpg'},
                 {name:'Storm',content:'暴风雨中的孩子',price:'46',src:'~@/assets/newbook/3.jpg'}
-            ],
-            categoryName:''
+            ]
         }
     },
     mounted(){
@@ -63,8 +68,7 @@ export default {
     },
     create(){
         //首先,当你修改了路由参数的时候,会发现你的页面数据并没有改变,数据是通过created这个生命周期从ajax获取到的.
-        this.$route.query.id,
-        this.$route.query.name,
+        this.$route.query.keyword,
         this.getCategoryList()
     },
     watch:{
@@ -79,14 +83,15 @@ export default {
         getCategoryList(){
             this.$ajax({
                 method:"post",
-                url:"/getBooksByType",
+                url:"/search",
                 params:{
                     ...this.page,
-                    type:this.$route.query.id
+                    keyword:this.$route.query.keyword
                 }
             }).then(res=>{
                 this.page.total=res.res.total
                 this.newbookList=res.res.list
+                console.log('List',this.newbookList.length)
             })
         },
         changePage(num){
@@ -98,6 +103,16 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "~@/style/basic.less";
+.main-content{
+    width: 100%;
+}
+.left-content{
+    width: 65%;
+    height: 100%;
+    float: left;
+    background: url("~@/assets/index/center_bg_1.png") repeat-y;
+    background-size:100% 100%;
+}
 .new-content{
     width:100%;
     height:100%;
@@ -117,6 +132,12 @@ export default {
         padding:10px 0;
         overflow:hidden;
         height: 100%;
+        .notice{
+            text-align: center;
+            font-size: 20px;
+            padding-bottom: 50px;
+            color: #f5a623;
+        }
         .new_prod_box{
             height: 290px;
             float:left;

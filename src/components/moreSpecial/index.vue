@@ -58,7 +58,7 @@ export default {
         getBookList(){
             this.$ajax({
                 method:'post',
-                url:'http://39.108.52.40:7777/getBooksByType',
+                url:'/getBooksByType',
                 params:{
                     type:12,
                     ...this.page
