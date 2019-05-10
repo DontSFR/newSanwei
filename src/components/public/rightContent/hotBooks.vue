@@ -11,7 +11,7 @@
                 <span class="nunmber">{{i+1}}.</span>
                 <div class="name-writer">
                     <router-link 
-                        :to="{name:'details',query:{id:t.name}}"
+                        :to="{name:'details',query:{bookId:t.bookId}}"
                     > 
                         <span class="book-name">
                             {{t.name}}

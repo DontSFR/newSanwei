@@ -21,7 +21,7 @@
                     特色书籍
                 </router-link>
             </MenuItem>
-            <MenuItem name="center">
+            <MenuItem name="center" v-show="ifLogin">
                 <router-link to='/center' class="a-link personer">
                     个人中心
                 </router-link>
@@ -76,7 +76,6 @@ export default {
         '$route'(to){
             //做一些路由变化的响应
             this.activeName=to.name
-            // console.log('----',to.name)
         }
     },
     mounted () {

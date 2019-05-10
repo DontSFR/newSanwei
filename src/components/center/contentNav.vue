@@ -103,7 +103,6 @@ export default {
             this.getBookComment()
         },
         cancleCollect (bookId){
-            console.log('aaaa')
             this.$ajax({
                 method:'post',
                 url:'/deleteCollect',
@@ -140,7 +139,6 @@ export default {
                     ...this.page
                 }
             }).then(res=>{
-                console.log('res.oo---',res)
                 this.personalComments=res.res.list
                 this.page.total=res.res.total
             })

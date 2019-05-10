@@ -41,7 +41,7 @@ export default {
     data () {
         return {
             page:{
-                pageSize: 15,
+                pageSize: 12,
                 total: 0,
                 pageNum: 1
             },
@@ -91,7 +91,6 @@ export default {
             }).then(res=>{
                 this.page.total=res.res.total
                 this.newbookList=res.res.list
-                console.log('List',this.newbookList.length)
             })
         },
         changePage(num){
@@ -108,7 +107,8 @@ export default {
 }
 .left-content{
     width: 65%;
-    height: 100%;
+    height: 1251px;
+    // min-height:1251px;
     float: left;
     background: url("~@/assets/index/center_bg_1.png") repeat-y;
     background-size:100% 100%;

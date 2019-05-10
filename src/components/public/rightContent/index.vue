@@ -16,19 +16,8 @@ export default{
     components: {hotTag,hotBooks,inputSearch},
     data () {
         return {
-            // isfix:false
         }
     }
-    // mounted () {
-    //     window.addEventListener('scroll', this.handleScroll)
-    // },
-    // methods:{
-    //     handleScroll () {
-    //         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-    //         console.log('scroll',scrollTop)
-    //         this.isfix=(scrollTop>170)
-    //     }
-    // }
 }
 </script>
 <style lang="less" scoped>

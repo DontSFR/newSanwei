@@ -95,7 +95,6 @@ export default {
                         gradeNum:gradeNum
                     }
                 })
-                console.log('ooo',res.res)
             })
         },
         changePage(num){

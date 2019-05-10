@@ -35,6 +35,7 @@ export default {
         init(){
             this.getUserInfo()
             this.geCollect()
+            this.getBookComment()
         },
         getUserInfo(){
             this.$ajax({
@@ -57,6 +58,19 @@ export default {
                 }
             }).then(res=>{
                 this.collectNum=res.res.length
+            })
+        },
+        getBookComment(){
+            this.$ajax({
+                method:'post',
+                url:'/getUserComments',
+                params:{
+                    userId:this.$cookies.get('userId'),
+                    pageSize:6,
+                    pageNum:1
+                }
+            }).then(res=>{
+                this.commendNum=res.res.total
             })
         },
     }

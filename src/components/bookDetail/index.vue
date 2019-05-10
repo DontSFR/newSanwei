@@ -7,7 +7,7 @@
                 alt=""
                 title="" />
             </span>
-            {{bookDetails.name}}
+            {{this.bookDetails.name}}
         </div>
         <div class="left-content">
             <div class="prod_img">
@@ -70,15 +70,15 @@
                 <div class="demo"  v-if="menuTab">
                     <Divider orientation="left" class="divider" v-model="textname">{{textname}}</Divider>
                     <p class="text">
-                        {{bookDetails.detail.content}}
+                        {{this.bookDetails.detail.content}}
                     </p>
                     <Divider orientation="left" class="divider" v-model="catalog">{{catalog}}</Divider>
-                    <p class="text">
-                        {{bookDetails.detail.catelog}}
+                    <p class="text " style="white-space: pre-wrap;">
+                        {{this.bookDetails.detail.catalog}}
                     </p>
                     <Divider orientation="left" class="divider" v-model="writerIntro">{{writerIntro}}</Divider>
                     <p class="text">
-                        {{bookDetails.detail.writer}}
+                        {{this.bookDetails.detail.writer}}
                     </p>
                 </div> 
                 <!-- 评论区域-->
@@ -151,9 +151,6 @@
         create(){
             this.$route.query.bookId
         },
-        // watch(){
-        //     this.getBookDeails()
-        // },
         mounted(){
             this.init()
         },
@@ -246,7 +243,6 @@
                         title: '评价失败，用户未登录'
                     })
                 }
-                console.log('rate',this.yourRateValue)
             },
             selectMenu(index){
                 this.menuTab=(index===1)

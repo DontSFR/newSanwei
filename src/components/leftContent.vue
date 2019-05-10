@@ -16,9 +16,10 @@
     .left-content{
         display: inline-block;
         width:60%;
-        height: 100px;
+        // height: 100px;
+        min-height: 1251px;
         background-color:aquamarine;
-        float:left;
+        float: left;
     }
     .right-content{
         display: inline-block;

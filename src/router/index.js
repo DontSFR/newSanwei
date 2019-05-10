@@ -1,23 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/view/index'
-// import personalCenter from '@/router/personalCenter.js'
-// import orderCenter from '@/router/orderCenter.js'
-
 Vue.use(Router)
 
 const routes =  [
   {
     path: '/',
     name: '主界面',
-    redirect: 'index',//重定位
-    // meta: {
-    //   requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-    // },
     component: index,
     children: [
-      // personalCenter,
-      // orderCenter,
       {
         path: 'index',
         name:'index',
@@ -62,40 +53,16 @@ const routes =  [
   },
   {
     path: '/login',
-    component: r => require.ensure([], () => r(require('../view/login.vue')), 'login')//设施路由
+    component: r => require.ensure([], () => r(require('../view/login.vue')), 'login')
   },
   {
     path: '/regist',
-    component: r => require.ensure([], () => r(require('../view/regist.vue')), 'regist')//设施路由
+    component: r => require.ensure([], () => r(require('../view/regist.vue')), 'regist')
   }
   
 ];
 
-
-// 页面刷新时，重新赋值token
-// if (window.localStorage.getItem('token')) {
-//   store.commit(types.LOGIN, window.localStorage.getItem('token'))
-// }
-
 const router = new Router({
   routes
 });
-
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(r => r.meta.requireAuth)) {
-//       if (store.state.token) {
-//           next();
-//       }
-//       else {
-//           next({
-//               path: '/login',
-//               query: {redirect: to.fullPath}
-//           })
-//       }
-//   }
-//   else {
-//       next();
-//   }
-// })
-
 export default router

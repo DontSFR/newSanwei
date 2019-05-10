@@ -61,7 +61,6 @@ export default {
                     ...this.form,
                 }
                 }).then(res => {
-                    // console.log('siccenss',res)
                     if(res.code=500){
                         this.$Notice.error({
                             title:res.reason
